@@ -51,16 +51,16 @@ export default class App extends Component {
       }));
     } catch (error) {
       console.error('Error fetching data:', error);
+    } finally {
+      this.setState({ isLoading: false });
     }
-    //  finally {
-    //   this.setState({ isLoading: false });
-    // }
   };
 
   render() {
     const { images, isLoading } = this.state;
     return (
       <div>
+        {isLoading && <Loader />}
         <Searchbar onSubmit={this.search}></Searchbar>
         <ImageGallery images={images} onClick={this.openModal} />
       </div>
