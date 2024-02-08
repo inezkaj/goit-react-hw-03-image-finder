@@ -6,7 +6,6 @@ import Loader from './loader.jsx';
 // import Modal from './modal.jsx';
 import axios from 'axios';
 import '.././index.css';
-// import ContentLoader from 'react-content-loader';
 
 const KEY = '41214727-6303ae3029c738ec798387c7a';
 const BASE_URL = 'https://pixabay.com/api/';
