@@ -20,6 +20,7 @@ export default class App extends Component {
       selectedImageUrl: '',
       isModalOpen: false,
       isLoading: false,
+      query: '',
     };
 
     this.search = this.search.bind(this);
