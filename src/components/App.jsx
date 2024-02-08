@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import Searchbar from './searchbar.jsx';
 import ImageGallery from './image_gallery.jsx';
-// import Loader from './loader.jsx';
+import Loader from './loader.jsx';
 // import Button from './button.jsx';
 // import Modal from './modal.jsx';
 import axios from 'axios';
