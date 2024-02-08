@@ -51,9 +51,10 @@ export default class App extends Component {
       }));
     } catch (error) {
       console.error('Error fetching data:', error);
-    } finally {
-      this.setState({ isLoading: false });
     }
+    //  finally {
+    //   this.setState({ isLoading: false });
+    // }
   };
 
   render() {
