@@ -8,15 +8,17 @@ export default class ImageGallery extends Component {
     const { images, onClick } = this.props;
 
     return (
-      <ul className={css.gallery}>
-        {images.map(image => (
-          <ImageGalleryItem
-            key={image.id}
-            image={image}
-            onClick={() => onClick(image.largeImageURL)}
-          />
-        ))}
-      </ul>
+      <div className={css.galleryImages}>
+        <ul className={css.gallery}>
+          {images.map(image => (
+            <ImageGalleryItem
+              key={image.id}
+              image={image}
+              onClick={() => onClick(image.largeImageURL)}
+            />
+          ))}
+        </ul>
+      </div>
     );
   }
 }

@@ -18,6 +18,6 @@ export default class ImageGalleryItem extends Component {
 }
 
 ImageGalleryItem.propTypes = {
-  image: PropTypes.string,
+  image: PropTypes.object,
   onClick: PropTypes.func,
 };

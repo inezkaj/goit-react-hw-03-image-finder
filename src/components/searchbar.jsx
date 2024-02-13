@@ -1,6 +1,7 @@
 // import css from './contact.module.css';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import css from './searchbar.module.css';
 
 export default class Searchbar extends Component {
   constructor(props) {
@@ -13,22 +14,22 @@ export default class Searchbar extends Component {
   handleSubmit = evt => {
     evt.preventDefault();
 
-    // const form = evt.currentTarget;
-    // let query = form.elements[1].value;
+    const form = evt.currentTarget;
+    let query = form.elements[1].value;
 
-    this.props.onSubmit(this.state.query);
+    this.props.onSubmit(query);
   };
 
   render() {
     return (
-      <header className="searchbar">
-        <form className="form" onSubmit={this.handleSubmit}>
-          <button type="submit" className="button">
-            <span className="button-label">Search</span>
+      <header className={css.searchbar}>
+        <form className={css.form} onSubmit={this.handleSubmit}>
+          <button type="submit" className={css.searchBtn}>
+            <span className={css.btnLabel}>Search</span>
           </button>
 
           <input
-            className="input"
+            className={css.inputSearch}
             type="text"
             autoComplete="off"
             autoFocus

@@ -2,8 +2,8 @@ import { Component } from 'react';
 import Searchbar from './searchbar.jsx';
 import ImageGallery from './image_gallery.jsx';
 import Loader from './loader.jsx';
-// import Button from './button.jsx';
-// import Modal from './modal.jsx';
+import Button from './button.jsx';
+import Modal from './modal.jsx';
 import axios from 'axios';
 import '.././index.css';
 
@@ -20,7 +20,6 @@ export default class App extends Component {
       selectedImageUrl: '',
       isModalOpen: false,
       isLoading: false,
-      query: '',
     };
 
     this.search = this.search.bind(this);
@@ -29,9 +28,7 @@ export default class App extends Component {
   search(query) {
     console.log(query);
 
-    this.setState({
-      query: query,
-    });
+    this.fetchData(query);
   }
 
   fetchData = async (query, page = 1) => {
@@ -47,7 +44,7 @@ export default class App extends Component {
             ? data.data.hits
             : [...prevState.images, ...data.data.hits],
         page: page + 1,
-        query,
+        query: query,
       }));
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -56,13 +53,40 @@ export default class App extends Component {
     }
   };
 
+  loadMoreBtn = () => {
+    const { query, page } = this.state;
+    this.fetchData(query, page);
+  };
+
+  openModal = imageUrl => {
+    this.setState({
+      selectedImageUrl: imageUrl,
+      isModalOpen: true,
+    });
+  };
+
+  closeModal = () => {
+    this.setState({
+      selectedImageUrl: '',
+      isModalOpen: false,
+    });
+  };
+
   render() {
     const { images, isLoading } = this.state;
     return (
       <div>
         {isLoading && <Loader />}
         <Searchbar onSubmit={this.search}></Searchbar>
-        <ImageGallery images={images} onClick={this.openModal} />
+        <ImageGallery onClick={this.openModal} images={images} />
+        {images.length > 0 && !isLoading && (
+          <Button onClick={this.loadMoreBtn} disabled={false} />
+        )}
+        <Modal
+          isOpen={this.state.isModalOpen}
+          imageUrl={this.state.selectedImageUrl}
+          onClose={this.closeModal}
+        />
       </div>
     );
   }
