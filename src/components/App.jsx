@@ -1,9 +1,9 @@
 import { Component } from 'react';
-import Searchbar from './searchbar.jsx';
-import ImageGallery from './image_gallery.jsx';
-import Loader from './loader.jsx';
-import Button from './button.jsx';
-import Modal from './modal.jsx';
+import Searchbar from './Searchbar/Searchbar.jsx';
+import ImageGallery from './Gallery/ImageGallery.jsx';
+import Loader from './Loader/Loader.jsx';
+import Button from './Button/button.jsx';
+import Modal from './Modal/Modal.jsx';
 import axios from 'axios';
 import '.././index.css';
 
@@ -16,7 +16,9 @@ export default class App extends Component {
     super(props);
 
     this.state = {
+      query: '',
       images: [],
+      page: 1,
       selectedImageUrl: '',
       isModalOpen: false,
       isLoading: false,
@@ -27,25 +29,38 @@ export default class App extends Component {
 
   search(query) {
     console.log(query);
-
-    this.fetchData(query);
+    this.setState({ query: query });
   }
 
-  fetchData = async (query, page = 1) => {
+  componentDidUpdate(prevProps, prevState) {
+    console.log('componentDidUpdate');
+    if (this.state.query !== prevState.query) {
+      console.log('query updated!');
+
+      this.setState({
+        images: [],
+        page: 1,
+      });
+      this.fetchData();
+    }
+  }
+
+  fetchData = async () => {
     this.setState({ isLoading: true });
 
-    const url = `${BASE_URL}?q=${query}&page=${page}&key=${KEY}&image_type=photo&orientation=horizontal&per_page=12`;
+    const url = `${BASE_URL}?q=${this.state.query}&page=${this.state.page}&key=${KEY}&image_type=photo&orientation=horizontal&per_page=12`;
 
     try {
+      console.log(this.state);
       const data = await axios.get(url);
-      this.setState(prevState => ({
-        images:
-          page === 1
-            ? data.data.hits
-            : [...prevState.images, ...data.data.hits],
-        page: page + 1,
-        query: query,
-      }));
+
+      this.setState(prevState => {
+        return {
+          images: [...prevState.images, ...data.data.hits],
+          page: prevState.page + 1,
+        };
+      });
+      console.log(this.state);
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
@@ -54,8 +69,7 @@ export default class App extends Component {
   };
 
   loadMoreBtn = () => {
-    const { query, page } = this.state;
-    this.fetchData(query, page);
+    this.fetchData();
   };
 
   openModal = imageUrl => {

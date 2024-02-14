@@ -1,7 +1,7 @@
 // import css from './contact.module.css';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import css from './searchbar.module.css';
+import css from './Searchbar.module.css';
 
 export default class Searchbar extends Component {
   constructor(props) {
