@@ -29,18 +29,13 @@ export default class App extends Component {
 
   search(query) {
     console.log(query);
-    this.setState({ query: query });
+    this.setState({ query: query, images: [], page: 1 });
   }
 
   componentDidUpdate(prevProps, prevState) {
     console.log('componentDidUpdate');
     if (this.state.query !== prevState.query) {
       console.log('query updated!');
-
-      this.setState({
-        images: [],
-        page: 1,
-      });
       this.fetchData();
     }
   }
@@ -49,7 +44,7 @@ export default class App extends Component {
     this.setState({ isLoading: true });
 
     const url = `${BASE_URL}?q=${this.state.query}&page=${this.state.page}&key=${KEY}&image_type=photo&orientation=horizontal&per_page=12`;
-
+    console.log(url);
     try {
       console.log(this.state);
       const data = await axios.get(url);
